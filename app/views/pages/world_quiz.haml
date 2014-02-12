@@ -1,9 +1,18 @@
-.title
-  %h1 
+.row.quiz-container
+  #map.col-md-7.nogutter
 
-#map.ten.columns
+  .col-md-5.center
+    #pane
+      .input-container
+        .title
+          %h1 Where in the world are we?
+        = render 'answers/form'
+        .button#skip
+          %p Skip
 
-#pane.six.columns
-  = render 'answers/form'
+      .info-container
+    
+      .button#next
+        %p Next
 
 = javascript_include_tag :quiz

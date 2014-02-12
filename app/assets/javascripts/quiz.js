@@ -1,13 +1,14 @@
-var width = 800,
-  height = 800,
+var width = $("#map").width(),
+  height = $("#map").height(),
   projection = d3.geo.orthographic()
-                       .scale(350)
+                       .scale(height/2.3)
                        .translate([width/2, height/2])
                        .clipAngle(90),
   path = d3.geo.path().projection(projection),
   svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
   $inputBox = $("#answer"),
   $countryBox = $("#answer_country_id"),
+  $skipButton = $("#skip"),
   names = {},
   answer, countries, country;
 
@@ -30,18 +31,35 @@ $(document).ready(function() {
 
       if (checkAnswer(value)) {
         active.classed("correct", true);
-        changeCountry();
+        removeCountry();
       } else {
         active.classed("wrong", true);
-        changeCountry();
+        removeCountry();
       }
     }
   });
 
-  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
-    $inputBox.val("");
-    $countryBox.val(country.id);
+  $skipButton.on("click", function(e) {
+    changeCountry();
+    clearBoxes();
+    transition();
   });
+
+  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
+    $.get("/countries/" + country.id, function(data) {
+      $(".info-container").html(data);
+      $(".info-container").fadeIn();
+      $("#next").fadeIn();
+    })
+    changeCountry();
+    clearBoxes();
+  });
+
+  $("#next").on("click", function(e) {
+    $(".info-container").fadeOut();
+    $("#next").fadeOut();
+    transition();
+  })
 })
 
 function ready(error, world, places) {
@@ -98,11 +116,13 @@ var drag = d3.behavior.drag().on('drag', function() {
 });
 
 function changeCountry() {
-  d3.select(".active").classed("active", false).classed("complete", true);
+  d3.select(".active").classed("active", false);
+  country = countries[Math.floor(Math.random() * countries.length)];
+}
+
+function removeCountry() {
   var i = countries.indexOf(country);
   countries.splice(i, 1);
-  country = countries[Math.floor(Math.random() * countries.length)];
-  transition(country);
 }
 
 function checkAnswer(input) {
@@ -124,11 +144,15 @@ function transition() {
       return function(t) {
         projection.rotate(r(t));
         setAnswer();
-        d3.select("h1").text(answer);
         svg.selectAll("path").attr("d", path)
           .classed("active", function(d, i) { return d.id == country.id; });
     };
   });
+}
+
+function clearBoxes() {
+  $inputBox.val("");
+  $countryBox.val(country.id);
 }
 
 function setAnswer() {

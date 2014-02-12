@@ -2,11 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
 
 // GENERAL //
 
 body {
   background-image:url('stars.jpg');
+  height: 100%;
+  width: 100%;
 }
 
 text {
@@ -18,8 +26,55 @@ text {
   color: white;
 }
 
+.quiz-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+// PANE //
+
+div#pane {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 20px;
+  margin: 20px 20px 20px 0;
+  @include border-radius(7px);
+
+  input {
+    width: 50%;
+    min-height: 35px;
+    border-radius: 5px;
+    padding: 0 5px;
+  }
+
+  color: black;
+}
+
+#pane .button {
+  display: inline-block;
+  margin: 20px auto;
+  width: 100px;
+  font-weight: bold;
+  text-align: center;
+  background-color: white;
+  @include border-radius(5px);
+  cursor: pointer;
+
+  &#next {
+    display: none;
+  }
+}
 
 // EARTH //
+
+div#map {
+  height: 100%;
+}
 
 .stroke {
   fill: none;
@@ -43,7 +98,7 @@ path#globe {
 }
 
 .land {
-  fill: #222;
+  fill: #808080;
 }
 
 .boundary {
@@ -61,9 +116,9 @@ path#globe {
 }
 
 .correct {
-  fill: forestgreen;
+  fill: #0C9b00;
 }
 
 .wrong {
-  fill: saddlebrown;
+  fill: #222;
 }
