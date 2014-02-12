@@ -7,6 +7,7 @@ var width = 800,
   path = d3.geo.path().projection(projection),
   svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
   $inputBox = $("#answer"),
+  $countryBox = $("#answer_country_id"),
   names = {},
   answer, countries, country;
 
@@ -39,12 +40,15 @@ $(document).ready(function() {
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
     $inputBox.val("");
+    $countryBox.val(country.id);
   });
 })
 
 function ready(error, world, places) {
   countries = topojson.feature(world, world.objects.countries).features;
     country = countries[Math.floor(Math.random() * countries.length)];
+
+  $countryBox.val(country.id);
 
   places.forEach(function(d) {
     names[d.id] = d.name;
