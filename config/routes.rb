@@ -1,6 +1,9 @@
 GeoQuiz::Application.routes.draw do
   root 'pages#index'
 
+  get '/practice' => 'pages#practice'
+  get '/world_quiz' => 'pages#world_quiz'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

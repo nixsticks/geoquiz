@@ -10,14 +10,26 @@ var path = d3.geo.path().projection(projection);
 
 var graticule = d3.geo.graticule();
 
-var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height);
+// var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height);
+
+var canvas = d3.select("body").append("canvas")
+    .attr("width", width)
+    .attr("height", height);
+
+var c = canvas.node().getContext("2d");
+
+var path = d3.geo.path()
+    .projection(projection)
+    .context(c);
 
 var names = {};
 
-svg.append("path")
-   .datum({type: "Sphere"})
-   .attr("id", "globe")
-   .attr("d", path);
+var places;
+
+// svg.append("path")
+//    .datum({type: "Sphere"})
+//    .attr("id", "globe")
+//    .attr("d", path);
 
 // svg.append("path")
 //    .datum(graticule)
@@ -29,41 +41,54 @@ queue()
 .defer(d3.tsv, "/datafiles/countrynames.tsv")
 .await(ready);
 
-function ready(error, world, countries) {
-  countries.forEach(function(d) {
+function ready(error, world, places) {
+  places.forEach(function(d) {
     names[d.id] = d.name;
   });
 
-  svg.selectAll("path.land")
-     .data(topojson.feature(world, world.objects.countries).features)
-     .enter().append("path")
-     .attr("class", "land")
-     .attr("d", path)
-     .on("mouseover", function(d) {
-        d3.select(this).attr("class", "active");
+  var land = topojson.feature(world, world.objects.land),
+ countries = topojson.feature(world, world.objects.countries).features,
+   borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
+         i = -1,
+         n = countries.length;
 
-        svg.append("text")
-           .text(names[d.id])
-           .attr("x", d3.event.pageX + "px")
-           .attr("y", d3.event.pageY + "px");
-     })
-     .on("mousemove", function(d) {
-        d3.select("text")
-          .attr("x", (d3.event.pageX) + "px")
-          .attr("y", (d3.event.pageY) + "px");
+  countries = countries.filter(function (d) {
+    return places.some(function(n) {
+      if (d.id == n.id) return d.name = n.name;
+    });
+  });
+
+  function transition() {
+    d3.transition()
+      .duration(1250)
+      .each("start", function() {
+          d3.select("h1").text(countries[i = (i + 1) % n].name);
       })
-     .on("mouseout", function(d) {
-        d3.select(this).classed('active', false).classed('land', true);
-        d3.select("text").remove();
-      });
+      .tween("rotate", function() {
+        var p = d3.geo.centroid(countries[i]),
+            r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+        return function(t) {
+          projection.rotate(r(t));
+          c.clearRect(0, 0, width, height);
+          c.fillStyle = "#bbb", c.beginPath(), path(land), c.fill();
+          c.fillStyle = "#f00", c.beginPath(), path(countries[i]), c.fill();
+          c.strokeStyle = "#fff", c.lineWidth = .5, c.beginPath(), path(borders), c.stroke();
+          // c.strokeStyle = "#000", c.lineWidth = 2, c.beginPath(), path(globe), c.stroke();
+        };
+      })
+    .transition()
+      .each("end", transition);
+  }
 
-  svg.insert("path", ".graticule")
-     .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-     .attr("class", "boundary")
-     .attr("d", path);
-
-  svg.call(drag);
+  transition();
 }
+
+  // var globe = {type: "Sphere"},
+  //     land = topojson.feature(world, world.objects.land),
+  //     countries = topojson.feature(world, world.objects.countries).features,
+  //     borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
+  //     i = -1,
+  //     n = countries.length;
 
 var drag = d3.behavior.drag().on('drag', function() {
   var start = { 

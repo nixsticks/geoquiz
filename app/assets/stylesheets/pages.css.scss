@@ -2,9 +2,24 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+// GENERAL //
+
 body {
-  background: #fcfcfa;
+  background-image:url('stars.jpg');
 }
+
+text {
+  font-family: "Overlock", cursive;
+  font-size: 2em;
+}
+
+.title h1 {
+  color: white;
+}
+
+
+// EARTH //
 
 .stroke {
   fill: none;
@@ -28,7 +43,7 @@ path#globe {
 }
 
 .land {
-  fill: saddlebrown;
+  fill: #222;
 }
 
 .boundary {
@@ -42,10 +57,13 @@ path#globe {
 }
 
 .active {
+  fill: red;
+}
+
+.correct {
   fill: forestgreen;
 }
 
-text {
-  font-family: "Overlock", cursive;
-  font-size: 2em;
+.wrong {
+  fill: saddlebrown;
 }
