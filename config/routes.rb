@@ -4,6 +4,7 @@ GeoQuiz::Application.routes.draw do
   get '/practice' => 'pages#practice'
   get '/world_quiz' => 'pages#world_quiz'
 
+  resources :answers
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -6,5 +6,6 @@ class PagesController < ApplicationController
   end
 
   def world_quiz
+    @answer = Answer.new
   end
 end

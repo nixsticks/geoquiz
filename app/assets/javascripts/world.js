@@ -116,13 +116,3 @@ var drag = d3.behavior.drag().on('drag', function() {
 
   svg.selectAll("path").attr("d", path);
 });
-
-function getCentroid(selection) {
-  // get the DOM element from a D3 selection
-  // you could also use "this" inside .each()
-  var element = selection.node(),
-      // use the native SVG interface to get the bounding box
-      bbox = element.getBBox();
-  // return the center of the bounding box
-  return [bbox.x + bbox.width/2, bbox.y + bbox.height/2];
-}

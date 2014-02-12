@@ -20,6 +20,28 @@ queue()
 .defer(d3.tsv, "/datafiles/countrynames.tsv")
 .await(ready);
 
+$(document).ready(function() {
+  $inputBox.keypress(function(event) {
+    if (event.which === 13) {
+      var $this = $(this),
+          value = $this.val(),
+          active = d3.select(".active").classed("active", false);;
+
+      if (checkAnswer(value)) {
+        active.classed("correct", true);
+        changeCountry();
+      } else {
+        active.classed("wrong", true);
+        changeCountry();
+      }
+    }
+  });
+
+  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
+    $inputBox.val("");
+  });
+})
+
 function ready(error, world, places) {
   countries = topojson.feature(world, world.objects.countries).features;
     country = countries[Math.floor(Math.random() * countries.length)];
@@ -42,24 +64,6 @@ function ready(error, world, places) {
   svg.call(drag);
 
   transition();
-}
-
-function transition() {
-  var p = d3.geo.centroid(country);
-
-  d3.transition()
-    .duration(2500)
-    .tween("rotate", function() {
-      var r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
-      return function(t) {
-        projection.rotate(r(t));
-        answer = names[country.id];
-        console.log(country.id);
-        d3.select("h1").text(answer);
-        svg.selectAll("path").attr("d", path)
-          .classed("active", function(d, i) { return d.id == country.id; });
-    };
-  });
 }
 
 var drag = d3.behavior.drag().on('drag', function() {
@@ -89,29 +93,11 @@ var drag = d3.behavior.drag().on('drag', function() {
   svg.selectAll("path").attr("d", path);
 });
 
-
-$inputBox.keypress(function(e) {
-  if (event.which === 13) {
-    var $this = $(this),
-        value = $this.val(),
-        active = d3.select(".active").classed("active", false);;
-
-    if (checkAnswer(value)) {
-      active.classed("correct", true);
-      changeCountry();
-    } else {
-      active.classed("wrong", true);
-      changeCountry();
-    }
-  }
-});
-
 function changeCountry() {
   d3.select(".active").classed("active", false).classed("complete", true);
   var i = countries.indexOf(country);
   countries.splice(i, 1);
   country = countries[Math.floor(Math.random() * countries.length)];
-  $inputBox.val("");
   transition(country);
 }
 
@@ -121,5 +107,28 @@ function checkAnswer(input) {
     return (input.toLowerCase() === shortAnswer.toLowerCase());
   } else {
     return (input.toLowerCase() === answer.toLowerCase());
+  }
+}
+
+function transition() {
+  var p = d3.geo.centroid(country);
+
+  d3.transition()
+    .duration(2500)
+    .tween("rotate", function() {
+      var r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+      return function(t) {
+        projection.rotate(r(t));
+        setAnswer();
+        d3.select("h1").text(answer);
+        svg.selectAll("path").attr("d", path)
+          .classed("active", function(d, i) { return d.id == country.id; });
+    };
+  });
+}
+
+function setAnswer() {
+  if (country) {
+    answer = names[country.id];
   }
 }
