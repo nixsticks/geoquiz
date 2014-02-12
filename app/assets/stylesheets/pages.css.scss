@@ -1,0 +1,51 @@
+// Place all the styles related to the Pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  background: #fcfcfa;
+}
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+path#globe {
+  fill: lightskyblue;
+}
+
+.land {
+  fill: saddlebrown;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.label {
+  font-size: .5em;
+}
+
+.active {
+  fill: forestgreen;
+}
+
+text {
+  font-family: "Overlock", cursive;
+  font-size: 2em;
+}
