@@ -20,9 +20,9 @@ bar.append("rect")
    .attr("width", function(d) { return scale(d.percentage) - 30; })
    .attr("height", barHeight - 1);
 
-svg.append("text")
+bar.append("text")
    .attr("class", "barlabel")
-   .attr("x", function(d) { return scale(d.percentage) - 45; })
+   .attr("x", function(d) { return scale(d.percentage) / 2; })
    .attr("y", barHeight / 2)
    .attr("dy", ".35em")
    .text(function(d) {
