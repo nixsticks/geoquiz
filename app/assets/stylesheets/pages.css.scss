@@ -52,7 +52,9 @@ div#pane {
     padding: 0 5px;
   }
 
-  color: black;
+  h1 {
+    color: white;
+  }
 }
 
 #pane .button {
@@ -64,10 +66,10 @@ div#pane {
   background-color: white;
   @include border-radius(5px);
   cursor: pointer;
+}
 
-  &#next {
-    display: none;
-  }
+#next {
+  display: none;
 }
 
 // EARTH //

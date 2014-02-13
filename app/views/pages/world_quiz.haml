@@ -3,16 +3,19 @@
 
   .col-md-5.center
     #pane
-      .input-container
-        .title
-          %h1 Where in the world are we?
-        = render 'answers/form'
-        .button#skip
-          %p Skip
+      .front
+        .input-container
+          .title
+            %h1 Where in the world are we?
+          = render 'answers/form'
+          .button#skip
+            %p Skip
 
-      .info-container
-    
-      .button#next
-        %p Next
+        .info-container
+          
+      
+        / #next
+        /   .button
+        /     %p Next
 
 = javascript_include_tag :quiz

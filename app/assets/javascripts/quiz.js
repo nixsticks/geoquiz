@@ -10,6 +10,7 @@ var width = $("#map").width(),
   $countryBox = $("#answer_country_id"),
   $skipButton = $("#skip"),
   names = {},
+  clickable = true,
   answer, countries, country;
 
 svg.append("path")
@@ -24,7 +25,7 @@ queue()
 
 $(document).ready(function() {
   $inputBox.keypress(function(event) {
-    if (event.which === 13) {
+    if (clickable === true && event.which === 13) {
       var $this = $(this),
           value = $this.val(),
           active = d3.select(".active").classed("active", false);;
@@ -36,29 +37,34 @@ $(document).ready(function() {
         active.classed("wrong", true);
         removeCountry();
       }
+
+      toggleInput();
     }
   });
 
   $skipButton.on("click", function(e) {
-    changeCountry();
-    clearBoxes();
-    transition();
+    if (clickable === true) {
+      changeCountry();
+      clearBoxes();
+      transition();
+    }
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
     $.get("/countries/" + country.id, function(data) {
       $(".info-container").html(data);
-      $(".info-container").fadeIn();
-      $("#next").fadeIn();
+      $(".info-container").slideDown();
+      $("#next").slideDown();
     })
     changeCountry();
     clearBoxes();
   });
 
   $("#next").on("click", function(e) {
-    $(".info-container").fadeOut();
-    $("#next").fadeOut();
+    $("#next").slideUp();
+    $(".info-container").slideUp();
     transition();
+    toggleInput();
   })
 })
 
@@ -158,5 +164,15 @@ function clearBoxes() {
 function setAnswer() {
   if (country) {
     answer = names[country.id];
+  }
+}
+
+function toggleInput() {
+  if (clickable) {
+    document.getElementById("answer").disabled = true;
+    clickable = false;
+  } else {
+    document.getElementById("answer").disabled = false;
+    clickable = true;
   }
 }
