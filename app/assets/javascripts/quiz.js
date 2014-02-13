@@ -6,7 +6,7 @@ var width = $("#map").width(),
                        .clipAngle(90),
     path = d3.geo.path().projection(projection),
     svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
-    $inputBox = $("#answer"),
+    $inputBox = $("#answer_content"),
     $countryBox = $("#answer_country_id"),
     $nextButton = $("#next"),
     $notification = $("#notification"),
@@ -42,14 +42,11 @@ $(document).ready(function() {
       }
 
       removeCountry();
-      toggleInput();
     }
   });
 
   $nextButton.on("click", function(e) {
-    if (!clickable) {
-      toggleInput();
-    }
+    if (!clickable) { toggleInput(); }
     $(".info-container").slideUp();
     changeCountry();
     clearBoxes();
@@ -62,6 +59,7 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
+    toggleInput();
     $.get("/countries/" + country.id, function(data) {
       $("#countrydata").html(data);
     })
@@ -160,7 +158,7 @@ function transition() {
         projection.rotate(r(t));
         setAnswer();
         svg.selectAll("path").attr("d", path)
-          .classed("active", function(d, i) { return d.id == country.id; });
+          .classed("active", function(d, i) { return d.id === country.id; });
     };
   });
 }
@@ -178,10 +176,10 @@ function setAnswer() {
 
 function toggleInput() {
   if (clickable) {
-    document.getElementById("answer").disabled = true;
+    document.getElementById("answer_content").disabled = true;
     clickable = false;
   } else {
-    document.getElementById("answer").disabled = false;
+    document.getElementById("answer_content").disabled = false;
     clickable = true;
   }
 }

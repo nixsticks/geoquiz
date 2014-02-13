@@ -17,11 +17,6 @@ body {
   width: 100%;
 }
 
-text {
-  font-family: "Overlock", cursive;
-  font-size: 2em;
-}
-
 .title h1 {
   color: white;
 }
@@ -113,6 +108,13 @@ div#pane {
   &.flipped {
     @include prefixes(transform, rotateY(180deg));
   }
+}
+
+
+// CHARTS //
+
+.bar {
+  fill: #808080;
 }
 
 

@@ -1,3 +1,5 @@
 = form_for @answer, remote: true, authenticity_token: true do |f|
-  = f.text_field :content, placeholder: "Country", id: "answer"
-  = f.hidden_field :country_id
+  .form-group
+    = f.text_field :content, autofocus: true
+  .form-group
+    = f.hidden_field :country_id
