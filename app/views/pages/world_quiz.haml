@@ -1,21 +1,22 @@
 .row.quiz-container
   #map.col-md-7.nogutter
 
-  .col-md-5.center
-    #pane
+  #pane.col-md-5
+    .card.center
       .front
         .input-container
           .title
             %h1 Where in the world are we?
           = render 'answers/form'
-          .button#skip
-            %p Skip
+          .button#next
+            %p Next/Skip
 
         .info-container
-          
+          #notification
+          %a{href: "#", class: "flip"} See what other people got.
+      .back
+        %p Hi this is a test.
+        #countrydata
+        %a{href: "#", class: "flip"} back
       
-        / #next
-        /   .button
-        /     %p Next
-
 = javascript_include_tag :quiz

@@ -2,11 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
+@mixin prefixes($property, $argument) {
+  -webkit-#{$property}: $argument;
+     -moz-#{$property}: $argument;
+      -ms-#{$property}: $argument;
+          #{$property}: $argument;
 }
 
 // GENERAL //
@@ -40,11 +40,6 @@ text {
 // PANE //
 
 div#pane {
-  background-color: rgba(255, 255, 255, 0.3);
-  padding: 20px;
-  margin: 20px 20px 20px 0;
-  @include border-radius(7px);
-
   input {
     width: 50%;
     min-height: 35px;
@@ -52,7 +47,7 @@ div#pane {
     padding: 0 5px;
   }
 
-  h1 {
+  h1, a {
     color: white;
   }
 }
@@ -64,13 +59,62 @@ div#pane {
   font-weight: bold;
   text-align: center;
   background-color: white;
-  @include border-radius(5px);
+  @include prefixes(border-radius, 5px);
   cursor: pointer;
 }
 
 #next {
   display: none;
 }
+
+.info-container {
+  display: none;
+}
+
+
+// CARD FLIP //
+
+#pane {
+  position: relative;
+  // height: 300px;
+  @include prefixes(perspective, 800);
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  @include prefixes(transform-style, preserve-3d);
+  @include prefixes(transition, 1s);
+
+  .front, .back {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 20px 20px 20px 0;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    padding: 20px 10px;
+    @include prefixes(border-radius, 7px);
+    // width: 100%;
+    // height: 100%;
+    @include prefixes(backface-visibility, hidden);
+  }
+
+  .front {
+    // z-index: 2;
+  }
+
+  .back {
+    // background-color: blue;
+    @include prefixes(transform, rotateY(-180deg));
+  }
+
+  &.flipped {
+    @include prefixes(transform, rotateY(180deg));
+  }
+}
+
 
 // EARTH //
 
