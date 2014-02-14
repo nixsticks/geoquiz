@@ -29,31 +29,28 @@ queue()
 
 $(document).ready(function() {
   $inputBox.keypress(function(event) {
-    if (clickable === true && event.which === 13) {
-      var $this = $(this),
-          value = $this.val(),
-          active = d3.select(".active");
+    if (event.which === 13) {
+      if ($(this).val()) {
+        var $this = $(this),
+            value = $this.val(),
+            active = d3.select(".active");
 
-      if (checkAnswer(value)) {
-        active.classed("active", false).classed("correct", true);
-        setNotification("correct");
+        if (checkAnswer(value)) {
+          active.classed("active", false).classed("correct", true);
+          setNotification("correct");
+        } else {
+          active.classed("active", false).classed("wrong", true);
+          setNotification("wrong");
+        }
+
+        removeCountry();
       } else {
-        active.classed("active", false).classed("wrong", true);
-        setNotification("wrong");
+        skip();
       }
-
-      removeCountry();
     }
   });
 
-  $nextButton.on("click", function(e) {
-    if (!clickable) { toggleInput(); }
-    $(".info-container").slideUp();
-    changeCountry();
-    clearBoxes();
-    $inputBox.focus();
-    transition();
-  });
+  $nextButton.on("click", skip);
 
   $("a.flip").on("click", function(e) {
     e.preventDefault();
@@ -61,13 +58,24 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
-    toggleInput();
-    $.get("/countries/" + country.id, function(data) {
-      $("#countrydata").html(data);
-    })
-    $(".info-container").slideDown();
+    if ($inputBox.val()) {
+      toggleInput();
+      $.get("/countries/" + country.id, function(data) {
+        $("#countrydata").html(data);
+      })
+      $(".info-container").slideDown();
+    }
   });
 })
+
+function skip() {
+  if (!clickable) { toggleInput(); }
+  $(".info-container").slideUp();
+  changeCountry();
+  clearBoxes();
+  $inputBox.focus();
+  transition();
+}
 
 function ready(error, world, places) {
   countries = topojson.feature(world, world.objects.countries).features;
