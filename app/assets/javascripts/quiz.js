@@ -60,6 +60,7 @@ $(document).ready(function() {
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
     if ($inputBox.val()) {
       toggleInput();
+      changeButton("Next");
       $.get("/countries/" + country.id, function(data) {
         $("#countrydata").html(data);
       })
@@ -67,15 +68,6 @@ $(document).ready(function() {
     }
   });
 })
-
-function skip() {
-  if (!clickable) { toggleInput(); }
-  $(".info-container").slideUp();
-  changeCountry();
-  clearBoxes();
-  $inputBox.focus();
-  transition();
-}
 
 function ready(error, world, places) {
   countries = topojson.feature(world, world.objects.countries).features;
@@ -170,6 +162,7 @@ function transition() {
       return function(t) {
         projection.rotate(r(t));
         setAnswer();
+        changeButton("Skip");
         svg.selectAll("path").attr("d", path)
           .classed("active", function(d, i) { return d.id === country.id; });
     };
@@ -196,4 +189,17 @@ function toggleInput() {
     document.getElementById("answer_content").disabled = false;
     clickable = true;
   }
+}
+
+function changeButton(command) {
+  $nextButton.html("<p>" + command + "</p>")
+}
+
+function skip() {
+  if (!clickable) { toggleInput(); }
+  $(".info-container").slideUp();
+  changeCountry();
+  clearBoxes();
+  $inputBox.focus();
+  transition();
 }
