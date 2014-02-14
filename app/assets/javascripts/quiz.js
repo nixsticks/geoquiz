@@ -1,15 +1,27 @@
-var width = $("#map").width(),
-    height = $("#map").height(),
-    projection = d3.geo.orthographic()
-                       .scale(height / 2.3)
-                       .translate([width / 2, height / 2])
-                       .clipAngle(90),
-    path = d3.geo.path().projection(projection),
-    svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
+var $map = $("#map"),
     $inputBox = $("#answer_content"),
     $countryBox = $("#answer_country_id"),
     $nextButton = $("#next"),
     $notification = $("#notification"),
+    width = $map.width(),
+    height = $map.height(),
+    scale,
+    translate;
+
+if (width < 500) {
+  scale = height / 5;
+  translate = [width / 2, height / 1.25];
+} else {
+  scale = height / 2.3
+  translate = [width / 2, height / 2];
+}
+
+var projection = d3.geo.orthographic()
+                       .scale(scale)
+                       .translate(translate)
+                       .clipAngle(90),
+    path = d3.geo.path().projection(projection),
+    svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
     names = {},
     clickable = true,
     answer,

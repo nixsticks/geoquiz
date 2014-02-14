@@ -28,8 +28,9 @@ h1 {
 .quiz-container {
   position: absolute;
   height: 100%;
-  width: 100%;
-  margin: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }
 
 .center {
@@ -62,11 +63,9 @@ div#pane {
   .button {
     display: inline-block;
     margin: 20px auto;
-    // width: 100px;
     font-weight: bold;
     text-align: center;
     background-color: steelblue;
-    @include prefixes(border-radius, 5px);
     cursor: pointer;
   }
 }
@@ -84,8 +83,7 @@ div#pane {
 
 #pane {
   position: relative;
-  // height: 300px;
-  @include prefixes(perspective, 800);
+  @include prefixes(perspective, 1000);
 }
 
 .card {
@@ -99,8 +97,8 @@ div#pane {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.3);
     margin-top: 30px;
-    left: 20px;
-    right: 20px;
+    // left: 20px;
+    // right: 20px;
     top: 20px;
     padding: 20px 10px;
     @include prefixes(border-radius, 7px);
