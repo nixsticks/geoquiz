@@ -51,6 +51,7 @@ $(document).ready(function() {
     $(".info-container").slideUp();
     changeCountry();
     clearBoxes();
+    $inputBox.focus();
     transition();
   });
 
