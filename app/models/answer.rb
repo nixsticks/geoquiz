@@ -4,7 +4,7 @@ class Answer < ActiveRecord::Base
   validates :content, presence: true
 
   def proper_name
-    if %w[usa uk us].include?(self.content)
+    if %w[usa uk us].include?(self.content.downcase)
       self.content.upcase
     elsif self.content.downcase == "timor-leste"
       "Timor-Leste"
@@ -13,3 +13,4 @@ class Answer < ActiveRecord::Base
     end
   end
 end
+ 
