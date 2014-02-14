@@ -13,6 +13,7 @@ var width = $("#map").width(),
     names = {},
     clickable = true,
     answer,
+    alternatives,
     countries,
     country;
 
@@ -23,7 +24,7 @@ svg.append("path")
 
 queue()
     .defer(d3.json, "/datafiles/world.json")
-    .defer(d3.tsv, "/datafiles/countrynames.tsv")
+    .defer(d3.json, "/datafiles/countrynames.json")
     .await(ready);
 
 $(document).ready(function() {
@@ -74,7 +75,10 @@ function ready(error, world, places) {
   $countryBox.val(country.id);
 
   places.forEach(function(d) {
-    names[d.id] = d.name;
+    d.alternatives.forEach(function(alternative) {
+      alternative.toLowerCase;
+    });
+    names[d.id] = [d.name].concat(d.alternatives);
   });
 
   svg.selectAll("path.land")
@@ -131,11 +135,11 @@ function removeCountry() {
 }
 
 function checkAnswer(input) {
-  if (answer.match(/(.*),/)) {
-    var shortAnswer = answer.match(/(.*),/)[1];
-    return (input.toLowerCase() === shortAnswer.toLowerCase());
+  if (answer.match(/the (.*)/)) {
+    var shortAnswer = answer.match(/the (.*)/)[1];
+    return (input.toLowerCase() === shortAnswer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
   } else {
-    return (input.toLowerCase() === answer.toLowerCase());
+    return (input.toLowerCase() === answer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
   }
 }
 
@@ -170,7 +174,8 @@ function clearBoxes() {
 
 function setAnswer() {
   if (country) {
-    answer = names[country.id];
+    answer = names[country.id][0];
+    alternatives = names[country.id].slice(1, names[country.id].length).map(function(x) { return x.toLowerCase(); });
   }
 }
 
