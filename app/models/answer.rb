@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
   belongs_to :country
   
-  validates :content, presence: true
+  validates :content, presence: true, format: {with: /[A-Z\-\',]+/i}
 
   def proper_name
     if %w[usa uk us].include?(self.content.downcase)
