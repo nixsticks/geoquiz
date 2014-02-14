@@ -1,5 +1,6 @@
 class Country < ActiveRecord::Base
   has_many :answers
+  has_many :alternatives
 
   def get_percentages
     percentages = []
