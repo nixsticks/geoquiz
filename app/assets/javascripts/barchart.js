@@ -1,7 +1,7 @@
 var data = gon.data,
     width = 300,
-    barHeight = 30,
-    height = barHeight * data.length || 100,
+    barHeight = 20,
+    height = barHeight * data.length,
     scale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) { return d.percentage; })])
               .range([0, width]),
@@ -18,11 +18,11 @@ var data = gon.data,
 bar.append("rect")
    .attr("class", "bar")
    .attr("width", function(d) { return scale(d.percentage) - 30; })
-   .attr("height", barHeight - 1);
+   .attr("height", barHeight - 2);
 
 bar.append("text")
    .attr("class", "barlabel")
-   .attr("x", function(d) { return scale(d.percentage) / 2; })
+   .attr("x", 3)
    .attr("y", barHeight / 2)
    .attr("dy", ".35em")
    .text(function(d) {

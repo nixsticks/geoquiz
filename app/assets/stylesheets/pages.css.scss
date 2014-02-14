@@ -114,7 +114,19 @@ div#pane {
 // CHARTS //
 
 .bar {
-  fill: #0C9b00;
+  fill: steelblue;
+}
+
+.barlabel {
+  fill: white;
+  font-size: 0.8em;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
 
