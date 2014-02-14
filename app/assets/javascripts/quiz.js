@@ -150,7 +150,7 @@ function removeCountry() {
 function checkAnswer(input) {
   if (answer.match(/the (.*)/)) {
     var shortAnswer = answer.match(/the (.*)/)[1];
-    return (input.toLowerCase() === shortAnswer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
+    return (input.toLowerCase() === shortAnswer.toLowerCase() || input.toLowerCase() === answer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
   } else {
     return (input.toLowerCase() === answer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
   }
