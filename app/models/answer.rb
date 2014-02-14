@@ -6,6 +6,8 @@ class Answer < ActiveRecord::Base
   def proper_name
     if %w[usa uk us].include?(self.content)
       self.content.upcase
+    elsif self.content.downcase == "timor-leste"
+      "Timor-Leste"
     else
       self.content.split.map(&:capitalize).join(' ')
     end

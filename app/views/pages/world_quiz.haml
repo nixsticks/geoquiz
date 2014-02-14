@@ -1,7 +1,7 @@
 .row.quiz-container
-  #map.col-md-7.nogutter
+  #map.column_8
 
-  #pane.col-md-5
+  #pane.column_5
     .card.center
       .front
         .input-container
@@ -16,6 +16,7 @@
           %a{href: "#", class: "flip"} See what other people thought.
       .back
         #countrydata
-        %a{href: "#", class: "flip"} back
+        %a{href: "#", class: "flip"}
+          %span{class: "icon left-sign"}
       
 = javascript_include_tag "quiz.js"

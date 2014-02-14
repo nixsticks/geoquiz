@@ -1,11 +1,12 @@
 var data = gon.data,
     width = 300,
-    barHeight = 20,
+    barHeight = 25,
     height = barHeight * data.length,
     scale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) { return d.percentage; })])
               .range([0, width]),
     chart = d3.select("#countrydata").append("svg")
+            .attr("class", "barchart")
             .attr("width", width)
             .attr("height", height),
     bar = chart.selectAll("g")

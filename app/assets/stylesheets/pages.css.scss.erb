@@ -21,6 +21,10 @@ body {
   color: white;
 }
 
+h1 {
+  margin: 10px 0;
+}
+
 .quiz-container {
   position: absolute;
   height: 100%;
@@ -32,30 +36,39 @@ body {
   text-align: center;
 }
 
+span.icon {
+  font-size: 32px;
+}
+
 // PANE //
 
 div#pane {
   input {
-    width: 50%;
+    width: 75%;
     min-height: 35px;
     border-radius: 5px;
+    margin-top: 20px;
     padding: 0 5px;
+
+    #answer_content:active {
+      border-color: steelblue;
+    }
   }
 
   h1, a {
     color: white;
   }
-}
 
-#pane .button {
-  display: inline-block;
-  margin: 20px auto;
-  width: 100px;
-  font-weight: bold;
-  text-align: center;
-  background-color: white;
-  @include prefixes(border-radius, 5px);
-  cursor: pointer;
+  .button {
+    display: inline-block;
+    margin: 20px auto;
+    // width: 100px;
+    font-weight: bold;
+    text-align: center;
+    background-color: steelblue;
+    @include prefixes(border-radius, 5px);
+    cursor: pointer;
+  }
 }
 
 #next {
@@ -85,14 +98,12 @@ div#pane {
   .front, .back {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.3);
-    margin: 20px 20px 20px 0;
+    margin-top: 30px;
     left: 20px;
     right: 20px;
     top: 20px;
     padding: 20px 10px;
     @include prefixes(border-radius, 7px);
-    // width: 100%;
-    // height: 100%;
     @include prefixes(backface-visibility, hidden);
   }
 
@@ -112,6 +123,10 @@ div#pane {
 
 
 // CHARTS //
+
+.barchart {
+  margin: 10px 0;
+}
 
 .bar {
   fill: steelblue;
