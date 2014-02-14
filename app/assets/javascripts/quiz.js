@@ -32,13 +32,13 @@ $(document).ready(function() {
     if (clickable === true && event.which === 13) {
       var $this = $(this),
           value = $this.val(),
-          active = d3.select(".active").classed("active", false);
+          active = d3.select(".active");
 
       if (checkAnswer(value)) {
-        active.classed("correct", true);
+        active.classed("active", false).classed("correct", true);
         setNotification("correct");
       } else {
-        active.classed("wrong", true);
+        active.classed("active", false).classed("wrong", true);
         setNotification("wrong");
       }
 
