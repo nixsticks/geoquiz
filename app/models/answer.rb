@@ -3,6 +3,10 @@ class Answer < ActiveRecord::Base
   validates :content, presence: true
 
   def proper_name
-    self.content.split.map(&:capitalize).join(' ')
+    if %w[usa uk us].include?(self.content)
+      self.content.upcase
+    else
+      self.content.split.map(&:capitalize).join(' ')
+    end
   end
 end
