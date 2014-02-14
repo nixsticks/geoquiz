@@ -5,23 +5,12 @@ var $map = $("#map"),
     $notification = $("#notification"),
     width = $map.width(),
     height = $map.height(),
-    scale,
-    translate;
-
-if (width < 500) {
-  scale = height / 5;
-  translate = [width / 2, height / 1.25];
-} else {
-  scale = height / 2.3
-  translate = [width / 2, height / 2];
-}
-
-var projection = d3.geo.orthographic()
-                       .scale(scale)
-                       .translate(translate)
+    projection = d3.geo.orthographic()
+                       .scale(width / 2.3)
+                       .translate([width / 2, height / 2])
                        .clipAngle(90),
     path = d3.geo.path().projection(projection),
-    svg = d3.select("#map").append("svg").attr("width", width).attr("height", height),
+    svg = d3.select("#map").append("svg").attr("viewBox", "0 0 " + width + " " + height).attr("preserveAspectRatio", "xMidYMid"),
     names = {},
     clickable = true,
     answer,
@@ -79,7 +68,18 @@ $(document).ready(function() {
       $(".info-container").slideDown();
     }
   });
-})
+});
+
+d3.select(window).on('resize', resize);
+
+function resize() {
+  width = parseInt($("#map").style("width"));
+  width = width - margin.left - margin.right;
+  height = width * mapRatio;
+
+  projection.scale(width / 2.3).translate([width / 2, height / 2]);
+  svg.selectAll("path").attr("d", path);
+}
 
 function ready(error, world, places) {
   countries = topojson.feature(world, world.objects.countries).features;
