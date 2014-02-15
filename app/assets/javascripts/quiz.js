@@ -172,7 +172,7 @@ function transition() {
         setAnswer();
         changeButton("Skip");
         svg.selectAll("path").attr("d", path)
-          .classed("active", function(d, i) { return d.id === country.id; });
+          .classed("active", function(d, i) { return d.id === country.id; }); 
     };
   });
 }
