@@ -1,22 +1,23 @@
-.row.quiz-container
-  #map.column_7
+.stars
+  .row.quiz-container
+    #map.column_7
 
-  #pane.column_5
-    .card.center
-      .front
-        .input-container
-          .title
-            %h1 Where in the world are we?
-          = render 'answers/form'
-          .button#next
-            %p Skip
+    #pane.column_5
+      .card.center
+        .front
+          .input-container
+            .title
+              %h1 Where in the world are we?
+            = render 'answers/form'
+            .button#next
+              %p Skip
 
-        .info-container
-          #notification
-          %a{href: "#", class: "flip"} See what other people thought.
-      .back
-        #countrydata
-        %a{href: "#", class: "flip"}
-          %span{class: "icon left-sign"}
+          .info-container
+            #notification
+            %a{href: "#", class: "flip"} See what other people thought.
+        .back
+          #countrydata
+          %a{href: "#", class: "flip"}
+            %span{class: "icon left-sign"}
       
 = javascript_include_tag "quiz.js"
