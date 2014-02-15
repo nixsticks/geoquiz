@@ -9,6 +9,8 @@
             .title
               %h1 Where in the world are we?
             = render 'answers/form'
+            .button#submit
+              = link_to 'OK', "#", :onclick=>"$('.search_form').submit()"
             .button#next
               %p Skip
 

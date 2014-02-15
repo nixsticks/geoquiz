@@ -29,27 +29,11 @@ queue()
     .await(ready);
 
 $(document).ready(function() {
-  $inputBox.keypress(function(event) {
-    if (event.which === 13) {
-      if ($(this).val()) {
-        var $this = $(this),
-            value = $this.val(),
-            active = d3.select(".active");
-
-        if (checkAnswer(value)) {
-          active.classed("active", false).classed("correct", true);
-          setNotification("correct");
-        } else {
-          active.classed("active", false).classed("wrong", true);
-          setNotification("wrong");
-        }
-
-        removeCountry();
-      } else {
-        skip();
-      }
+  $(this).keypress(function(event) {
+    if (event.which === 13 ) {
+      if (!clickable || !$inputBox.val()) { skip(); }
     }
-  });
+  })
 
   $nextButton.on("click", skip);
 
@@ -59,7 +43,19 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
-    if ($inputBox.val()) {
+    var value = $inputBox.val(),
+        active = d3.select(".active");
+
+    if (value) {
+      if (checkAnswer(value)) {
+        active.classed("active", false).classed("correct", true);
+        setNotification("correct");
+      } else {
+        active.classed("active", false).classed("wrong", true);
+        setNotification("wrong");
+      }
+
+      removeCountry();
       toggleInput();
       changeButton("Next");
       $.get("/countries/" + country.id, function(data) {
@@ -210,6 +206,7 @@ function changeButton(command) {
 function skip() {
   if (!clickable) { toggleInput(); }
   $(".info-container").slideUp();
+  $(".card").removeClass("flipped");
   changeCountry();
   clearBoxes();
   $inputBox.focus();
