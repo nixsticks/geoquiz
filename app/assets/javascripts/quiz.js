@@ -35,6 +35,10 @@ $(document).ready(function() {
     }
   })
 
+  $("#submit").on("click", function(event) {
+    event.preventDefault();
+  })
+
   $nextButton.on("click", skip);
 
   $("a.flip").on("click", function(e) {
