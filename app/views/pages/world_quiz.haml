@@ -9,8 +9,7 @@
             .title
               %h1 Where in the world are we?
             = render 'answers/form'
-            .button#submit
-              = link_to 'OK', "#", onclick: "$('.new_answer').submit()"
+            = link_to 'OK', "#", onclick: "$('.new_answer').submit()", class: "button", id: "submit"
             .button#next
               %p Skip
 
