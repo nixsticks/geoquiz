@@ -6,11 +6,13 @@ var $map = $("#map"),
     width = $map.width(),
     height = $map.height(),
     projection = d3.geo.orthographic()
-                       .scale(width / 2.3)
-                       .translate([width / 2, height / 2])
-                       .clipAngle(90),
+                   .scale(width / 2.3)
+                   .translate([width / 2, height / 2])
+                   .clipAngle(90),
     path = d3.geo.path().projection(projection),
-    svg = d3.select("#map").append("svg").attr("viewBox", "0 0 " + width + " " + height).attr("preserveAspectRatio", "xMidYMid"),
+    svg = d3.select("#map").append("svg")
+              .attr("viewBox", "0 0 " + width + " " + height)
+              .attr("preserveAspectRatio", "xMidYMid"),
     names = {},
     clickable = true,
     answer,
@@ -35,14 +37,12 @@ $(document).ready(function() {
     }
   })
 
-  $("#submit").on("click", function(event) {
-    event.preventDefault();
-  })
+  $("#submit").on("click", function(event) { event.preventDefault(); })
 
   $nextButton.on("click", skip);
 
-  $("a.flip").on("click", function(e) {
-    e.preventDefault();
+  $("a.flip").on("click", function(event) {
+    event.preventDefault();
     $(".card").toggleClass("flipped");
   });
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
         active = d3.select(".active");
 
     if (value) {
-      if (checkAnswer(value)) {
+      if (correctAnswer(value)) {
         active.classed("active", false).classed("correct", true);
         setNotification("correct");
       } else {
@@ -62,9 +62,7 @@ $(document).ready(function() {
       removeCountry();
       toggleInput();
       changeButton("Next");
-      $.get("/countries/" + country.id, function(data) {
-        $("#countrydata").html(data);
-      })
+      $.get("/countries/" + country.id, function(data) { $("#countrydata").html(data); })
       $(".info-container").slideDown();
     }
   });
@@ -138,8 +136,11 @@ var drag = d3.behavior.drag().on('drag', function() {
 });
 
 function changeCountry() {
+  var oldcountry = country;
   d3.select(".active").classed("active", false);
-  country = countries[Math.floor(Math.random() * countries.length)];
+  while (country === oldcountry) {
+   country = countries[Math.floor(Math.random() * countries.length)]; 
+  }
 }
 
 function removeCountry() {
@@ -147,7 +148,7 @@ function removeCountry() {
   countries.splice(i, 1);
 }
 
-function checkAnswer(input) {
+function correctAnswer(input) {
   if (answer.match(/the (.*)/)) {
     var shortAnswer = answer.match(/the (.*)/)[1];
     return (input.toLowerCase() === shortAnswer.toLowerCase() || input.toLowerCase() === answer.toLowerCase() || alternatives.indexOf(input.toLowerCase()) > -1);
