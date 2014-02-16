@@ -8,4 +8,8 @@ class PagesController < ApplicationController
   def world_quiz
     @answer = Answer.new
   end
+
+  def usa
+    @answer = Answer.new
+  end
 end

@@ -3,10 +3,11 @@ GeoQuiz::Application.routes.draw do
 
   get '/practice' => 'pages#practice'
   get '/world_quiz' => 'pages#world_quiz'
+  get '/usa' => 'pages#usa'
 
   resources :answers
 
-  resources :countries
+  resources :units
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

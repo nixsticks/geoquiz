@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
-  belongs_to :country
+  belongs_to :unit
   
   validates :content, presence: true, format: {with: /[A-Z\-\',]+/i}
 

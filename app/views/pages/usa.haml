@@ -1,12 +1,13 @@
-.row.quiz-container
-    #map.column_7
+.blue
+  .row.quiz-container
+    #map.column_8
 
-    #pane.column_5
+    #pane.column_4
       .card.center
         .front
           .input-container
             .title
-              %h1 Where in the world are we?
+              %h1 Which state is this?
             = render 'answers/form'
             = link_to 'OK', "#", onclick: "$('.new_answer').submit()", class: "button", id: "submit"
             .button#next
@@ -19,3 +20,5 @@
           #countrydata
           %a{href: "#", class: "flip"}
             %span{class: "icon left-sign"}
+
+= javascript_include_tag "usa.js"

@@ -1,6 +1,6 @@
 var $map = $("#map"),
     $inputBox = $("#answer_content"),
-    $countryBox = $("#answer_country_id"),
+    $countryBox = $("#answer_unit_id"),
     $nextButton = $("#next"),
     $notification = $("#notification"),
     width = $map.width(),
@@ -62,7 +62,7 @@ $(document).ready(function() {
       removeCountry();
       toggleInput();
       changeButton("Next");
-      $.get("/countries/" + country.id, function(data) { $("#countrydata").html(data); })
+      $.get("/units/" + country.id, function(data) { $("#countrydata").html(data); })
       $(".info-container").slideDown();
     }
   });
