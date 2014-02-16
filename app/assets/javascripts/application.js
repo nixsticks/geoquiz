@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require tuktuk
+//= require d3.min
+//= require topojson.min
+//= require queue.min
 //= require turbolinks
