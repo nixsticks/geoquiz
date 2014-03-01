@@ -6,24 +6,30 @@ var $map = $("#map"),
     width = $map.width(),
     height = $map.height(),
     projection = d3.geo.orthographic()
-                   .scale(width / 2.3)
-                   .translate([width / 2, height / 2])
+                   .scale(width / 4.5)
+                   .translate([width / 3.3, height / 2])
                    .clipAngle(90),
     path = d3.geo.path().projection(projection),
     svg = d3.select("#map").append("svg")
               .attr("viewBox", "0 0 " + width + " " + height)
               .attr("preserveAspectRatio", "xMidYMid"),
+    g = svg.append("g"),
     names = {},
     clickable = true,
     answer,
     alternatives,
     countries,
-    country;
+    country,
+    centered;
 
-svg.append("path")
+svg.append("rect")
+   .attr("class", "transparent")
+   .attr("width", width)
+   .attr("height", height);
+
+g.append("path")
     .datum({type: "Sphere"})
-    .attr("id", "globe")
-    .attr("d", path);
+    .attr("id", "globe");
 
 queue()
     .defer(d3.json, "/datafiles/world.json")
@@ -62,7 +68,7 @@ $(document).ready(function() {
       removeCountry();
       toggleInput();
       changeButton("Next");
-      $.get("/units/" + country.id, function(data) { $("#countrydata").html(data); })
+      $.get("/units/" + country.id, function(data) { $("#unitdata").html(data); })
       $(".info-container").slideDown();
     }
   });
@@ -72,11 +78,9 @@ d3.select(window).on('resize', resize);
 
 function resize() {
   width = parseInt($("#map").style("width"));
-  width = width - margin.left - margin.right;
-  height = width * mapRatio;
+  height = parseInt($("#map").style("height"));
 
-  projection.scale(width / 2.3).translate([width / 2, height / 2]);
-  svg.selectAll("path").attr("d", path);
+  projection.scale(width / 4.2).translate([width / 3.3, height / 2]);
 }
 
 function ready(error, world, places) {
@@ -92,13 +96,16 @@ function ready(error, world, places) {
     names[d.id] = [d.name].concat(d.alternatives);
   });
 
-  svg.selectAll("path.land")
-     .data(countries)
-     .enter().append("path")
-     .attr("class", "land")
-     .attr("d", path);
+  g.append("g")
+    .selectAll("path.land")
+    .data(countries)
+    .enter().append("path")
+    .attr("class", "land")
+    .attr("d", path);
 
-  svg.insert("path", ".graticule")
+  g.on("click", clicked);
+
+  g.insert("path", ".graticule")
      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
      .attr("class", "boundary")
      .attr("d", path);
@@ -125,10 +132,6 @@ var drag = d3.behavior.drag().on('drag', function() {
     lon: start.lon + delta.x * scale, 
     lat: start.lat - delta.y * scale 
   };
-
-  end.lat = end.lat >  30 ?  30 :
-            end.lat < -30 ? -30 :
-            end.lat;
   
   projection.rotate([end.lon,end.lat]);
 
@@ -138,8 +141,12 @@ var drag = d3.behavior.drag().on('drag', function() {
 function changeCountry() {
   var oldcountry = country;
   d3.select(".active").classed("active", false);
-  while (country === oldcountry) {
-   country = countries[Math.floor(Math.random() * countries.length)]; 
+  if (countries.length > 1) {
+    while (country === oldcountry) {
+     country = countries[Math.floor(Math.random() * countries.length)]; 
+    }
+  } else {
+    country = countries[0];
   }
 }
 
@@ -212,8 +219,45 @@ function skip() {
   if (!clickable) { toggleInput(); }
   $(".info-container").slideUp();
   $(".card").removeClass("flipped");
-  changeCountry();
-  clearBoxes();
-  $inputBox.focus();
-  transition();
+
+  if (!countries.length) {
+    var score = $(".correct").size();
+    $(".input-container").html("<h1>CONGRATULATIONS!</h1><p>You finished the game!</p><p>Your score: " + score + "</p>");
+  } else if (countries.length == 1) {
+    $(".title").html("<h1>Keep going! You have one left!</h1>");
+  } else {
+    changeCountry();
+    clearBoxes();
+    $inputBox.focus();
+    transition();
+  }
+}
+
+function clicked(d) { 
+  var x, y, z, k;
+
+  if (!centered) {
+    var active = d3.select(".active"), centroid;
+    active.each(function(d) {
+      centroid = path.centroid(d);
+      console.log(d);
+    })
+
+    x = centroid[0];
+    y = centroid[1];
+    k = 2;
+    z = 3.3;
+    centered = true;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    z = 2;
+    centered = false;
+  }
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / z + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")");
+      // .style("stroke-width", 1.5 / k + "px");
 }

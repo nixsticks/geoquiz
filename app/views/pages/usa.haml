@@ -1,24 +1,23 @@
-.blue
+.ivory
   .row.quiz-container
-    #map.column_8
+    #map
+      #pane.column_4
+        .card.center.blue
+          .front
+            .input-container.overlay
+              .title
+                %h1 Name the state.
+              = render 'answers/form'
+              = link_to 'OK', "#", onclick: "$('.new_answer').submit()", class: "button", id: "submit"
+              .button#next
+                %p Skip
 
-    #pane.column_4
-      .card.center
-        .front
-          .input-container
-            .title
-              %h1 Which state is this?
-            = render 'answers/form'
-            = link_to 'OK', "#", onclick: "$('.new_answer').submit()", class: "button", id: "submit"
-            .button#next
-              %p Skip
-
-          .info-container
-            #notification
-            %a{href: "#", class: "flip"} See what other people thought.
-        .back
-          #countrydata
-          %a{href: "#", class: "flip"}
-            %span{class: "icon left-sign"}
+            .info-container
+              #notification
+              %a{href: "#", class: "flip"} See what other people thought.
+          .back
+            #unitdata
+            %a{href: "#", class: "flip"}
+              %span{class: "icon left-sign"}
 
 = javascript_include_tag "usa.js"

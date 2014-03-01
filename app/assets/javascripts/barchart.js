@@ -5,7 +5,7 @@ var data = gon.data,
     scale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) { return d.percentage; })])
               .range([0, width]),
-    chart = d3.select("#countrydata").append("svg")
+    chart = d3.select("#unitdata").append("svg")
             .attr("class", "barchart")
             .attr("width", width)
             .attr("height", height),
