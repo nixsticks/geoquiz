@@ -4,6 +4,7 @@ var $map = $("#map"),
     $nextButton = $("#next"),
     $notification = $("#notification"),
     $okButton = $(".ok"),
+    inputBox = document.getElementById("answer_content"),
     width = $map.width(),
     height = $map.height(),
     projection = options.projection,
@@ -13,7 +14,6 @@ var $map = $("#map"),
               .attr("preserveAspectRatio", "xMidYMid"),
     g = svg.append("g"),
     transition = options.transition,
-    clickable = true,
     answer,
     units,
     unit,
@@ -22,7 +22,7 @@ var $map = $("#map"),
 $(document).ready(function() {
   $(this).keypress(function(event) {
     if (event.which === 13 ) {
-      if (!clickable || !$inputBox.val()) { skip(); }
+      if (!inputBox.disabled || !$inputBox.val()) { skip(); }
     }
   })
 
@@ -40,8 +40,6 @@ $(document).ready(function() {
       var value = $inputBox.val(),
           active = d3.select(".active");
 
-      clickable = false;
-
       if (correctAnswer(value)) {
         active.classed("active", false).classed("correct", true);
         setNotification("correct");
@@ -53,11 +51,11 @@ $(document).ready(function() {
       removeUnit();
       changeButton("Next");
       $okButton.addClass("grayed");
+    } else {
+      return false;
     }
-  });
-
-  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
-    document.getElementById("answer_content").disabled = true;
+  }).bind("ajax:success", function(e, data, status, xhr) {
+    inputBox.disabled = true;
     $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
     $(".info-container").slideDown();
   });
@@ -184,10 +182,7 @@ function changeButton(command) {
 }
 
 function skip() {
-  if (!clickable) {
-    document.getElementById("answer_content").disabled = false;
-    clickable = true;
-  }
+  inputBox.disabled = false;
   $(".info-container").slideUp();
   $(".card").removeClass("flipped");
   $okButton.removeClass("grayed");
