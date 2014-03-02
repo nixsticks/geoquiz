@@ -35,11 +35,13 @@ $(document).ready(function() {
     $(".card").toggleClass("flipped");
   });
 
+  $("#new_answer").on("ajax:before", function() {
+    toggleInput();
+  });
+
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
     var value = $inputBox.val(),
         active = d3.select(".active");
-
-    toggleInput();
 
     if (value) {
       if (correctAnswer(value)) {
