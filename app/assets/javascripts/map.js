@@ -219,8 +219,8 @@ function clicked(d) {
     x = centroid[0];
     y = centroid[1];
     k = 2;
-    z = 2;
-    centered = true;
+    z = 3;
+    centered = d;
   } else {
     x = width / 3;
     y = height / 2;
