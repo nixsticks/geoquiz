@@ -22,7 +22,7 @@ var $map = $("#map"),
 $(document).ready(function() {
   $(this).keypress(function(event) {
     if (event.which === 13 ) {
-      if (!inputBox.disabled || !$inputBox.val()) { skip(); }
+      if (inputBox.disabled || !$inputBox.val()) { skip(); }
     }
   })
 
@@ -37,6 +37,7 @@ $(document).ready(function() {
 
   $("#new_answer").on("ajax:before", function() {
     if ($inputBox.val()) {
+      console.log("full")
       var value = $inputBox.val(),
           active = d3.select(".active");
 
@@ -52,6 +53,7 @@ $(document).ready(function() {
       changeButton("Next");
       $okButton.addClass("grayed");
     } else {
+      console.log("empty")
       return false;
     }
   }).bind("ajax:success", function(e, data, status, xhr) {
