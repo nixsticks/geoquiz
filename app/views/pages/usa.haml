@@ -1,4 +1,4 @@
-.ivory
+.skyblue
   .row.quiz-container
     #map
       #pane.column_4
@@ -20,4 +20,20 @@
             %a{href: "#", class: "flip"}
               %span{class: "icon left-sign"}
 
-= javascript_include_tag "usa.js"
+:javascript
+  var options = {
+    file: "usa.json",
+    globe: false,
+    projection: d3.geo.albersUsa()
+                     .scale(1000)
+                     .translate([$("#map").width() / 3, $("#map").height() / 2]),
+    drag: false,
+    transition: function() {
+      changeButton("Skip");
+      svg.selectAll(".unit").classed("active", function(d, i) {
+        return d.properties.name === unit.properties.name;
+      });
+    }
+  }
+
+= javascript_include_tag "map.js"

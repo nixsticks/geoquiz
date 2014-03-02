@@ -20,4 +20,30 @@
             %a{href: "#", class: "flip"}
               %span{class: "icon left-sign"}
       
-= javascript_include_tag "quiz.js"
+:javascript
+  var options = {
+    file: "world.json",
+    globe: true,
+    projection: d3.geo.orthographic()
+                  .scale($("#map").width() / 4.5)
+                  .translate([$("#map").width() / 3.3, $("#map").height() / 2])
+                  .clipAngle(90),
+    drag: true,
+    transition: function() {
+      var p = d3.geo.centroid(unit);
+
+      d3.transition()
+        .duration(2500)
+        .tween("rotate", function() {
+          var r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+          return function(t) {
+            projection.rotate(r(t));
+            changeButton("Skip");
+            svg.selectAll("path").attr("d", path)
+              .classed("active", function(d, i) { return d.id === unit.id; }); 
+        };
+      });
+    }
+  }
+
+= javascript_include_tag "map.js"

@@ -5,15 +5,13 @@ var $map = $("#map"),
     $notification = $("#notification"),
     width = $map.width(),
     height = $map.height(),
-    projection = d3.geo.albersUsa()
-                   .scale(1000)
-                   .translate([width / 3, height / 2]),
+    projection = options.projection,
     path = d3.geo.path().projection(projection),
     svg = d3.select("#map").append("svg")
               .attr("viewBox", "0 0 " + width + " " + height)
               .attr("preserveAspectRatio", "xMidYMid"),
     g = svg.append("g"),
-    states = {},
+    transition = options.transition,
     clickable = true,
     answer,
     units,
@@ -52,10 +50,12 @@ $(document).ready(function() {
       removeUnit();
       toggleInput();
       changeButton("Next");
-      $.get("/units/" + states[unit.properties.name], function(data) { $("#unitdata").html(data); })
+      $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); })
       $(".info-container").slideDown();
     }
   });
+
+  map(options);
 });
 
 d3.select(window).on('resize', resize);
@@ -69,33 +69,72 @@ function resize() {
   svg.selectAll("path").attr("d", path);
 }
 
-d3.json("/datafiles/usa.json", function(error, data) {
-  units = topojson.feature(data, data.objects.states).features;
-  unit = units[Math.floor(Math.random() * units.length)];
-  setAnswer();
-  var i = 896;
+function map(options) {
+  d3.json("/datafiles/" + options.file, function(error, data) {
+    if (options.globe) {
+      svg.append("rect")
+       .attr("class", "transparent")
+       .attr("width", width)
+       .attr("height", height);
 
-  units.forEach(function(unit) {
-    states[unit.properties.name] = i;
-    i++;
+      g.append("path")
+       .datum({type: "Sphere"})
+       .attr("id", "globe");
+    }
+
+    units = topojson.feature(data, data.objects.units).features;
+    unit = units[Math.floor(Math.random() * units.length)];
+    setAnswer();
+
+    // var i = 896;
+
+    // units.forEach(function(unit) {
+    //   states[unit.properties.name] = i;
+    //   i++;
+    // });
+
+    $unitBox.val(unit.id);
+
+    g.append("g")
+     .selectAll("path.unit")
+     .data(units)
+     .enter().append("path")
+     .attr("class", "unit")
+     .attr("d", path)
+     .on("click", clicked);
+
+    g.append("path")
+       .datum(topojson.mesh(data, data.objects.units, function(a, b) { return a !== b; }))
+       .attr("class", "boundary")
+       .attr("d", path);
+
+    if (options.drag) { svg.call(drag); }
+
+    transition();
   });
+}
 
-  $unitBox.val(states[unit.properties.name]);
+var drag = d3.behavior.drag().on('drag', function() {
+  var start = { 
+    lon: projection.rotate()[0], 
+    lat: projection.rotate()[1]
+  },
 
-  g.append("g")
-   .selectAll(".state")
-   .data(topojson.feature(data, data.objects.states).features)
-   .enter().append("path")
-   .attr("class", "state")
-   .attr("d", path)
-   .on("click", clicked);
+  delta = { 
+    x: d3.event.dx,
+    y: d3.event.dy  
+  },
+    
+  scale = 0.25,
 
-  g.append("path")
-     .datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
-     .attr("class", "boundary")
-     .attr("d", path);
+  end = { 
+    lon: start.lon + delta.x * scale, 
+    lat: start.lat - delta.y * scale 
+  };
+  
+  projection.rotate([end.lon,end.lat]);
 
-  transition();
+  svg.selectAll("path").attr("d", path);
 });
 
 function changeUnit() {
@@ -117,7 +156,8 @@ function removeUnit() {
 }
 
 function correctAnswer(input) {
-  return (input.toLowerCase() === unit.properties.name.toLowerCase() || input.toLowerCase() === unit.properties.abbr.toLowerCase());
+  console.log(unit.properties.names);
+  return (unit.properties.names.indexOf(input.toLowerCase()) !== -1);
 }
 
 function setNotification(command) {
@@ -130,7 +170,7 @@ function setNotification(command) {
 
 function clearBoxes() {
   $inputBox.val("");
-  $unitBox.val(states[unit.properties.name]);
+  $unitBox.val(unit.id);
 }
 
 function setAnswer() {
@@ -171,11 +211,6 @@ function skip() {
   }
 }
 
-function transition() {
-  svg.selectAll(".state").classed("active", function(d, i) {
-    return d.properties.name === unit.properties.name; });
-}
-
 function clicked(d) {
   var x, y, k;
 
@@ -185,13 +220,13 @@ function clicked(d) {
     y = centroid[1];
     k = 2;
     z = 2;
-    centered = d;
+    centered = true;
   } else {
     x = width / 3;
     y = height / 2;
     k = 1;
     z = 3;
-    centered = null;
+    centered = false;
   }
 
   g.transition()
