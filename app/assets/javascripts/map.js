@@ -39,9 +39,8 @@ $(document).ready(function() {
     if ($inputBox.val()) {
       var value = $inputBox.val(),
           active = d3.select(".active");
+      clickable = false;
 
-      toggleInput();
-      
       if (correctAnswer(value)) {
         active.classed("active", false).classed("correct", true);
         setNotification("correct");
@@ -57,6 +56,7 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
+    toggleInput();
     $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
     $(".info-container").slideDown();
   });
@@ -181,10 +181,8 @@ function setAnswer() {
 function toggleInput() {
   if (clickable) {
     document.getElementById("answer_content").disabled = true;
-    clickable = false;
   } else {
     document.getElementById("answer_content").disabled = false;
-    clickable = true;
   }
 }
 
@@ -193,7 +191,11 @@ function changeButton(command) {
 }
 
 function skip() {
-  if (!clickable) { toggleInput(); }
+  if (!clickable) {
+    clickable = true;
+    toggleInput();
+  }
+  
   $(".info-container").slideUp();
   $(".card").removeClass("flipped");
   $okButton.removeClass("grayed");
