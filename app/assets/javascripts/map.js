@@ -36,14 +36,12 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:before", function() {
-    if ($inputBox.val()) { toggleInput(); }
-  });
+    if ($inputBox.val()) {
+      var value = $inputBox.val(),
+          active = d3.select(".active");
 
-  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
-    var value = $inputBox.val(),
-        active = d3.select(".active");
-
-    if (value) {
+      toggleInput();
+      
       if (correctAnswer(value)) {
         active.classed("active", false).classed("correct", true);
         setNotification("correct");
@@ -55,9 +53,12 @@ $(document).ready(function() {
       removeUnit();
       changeButton("Next");
       $okButton.addClass("grayed");
-      $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); })
-      $(".info-container").slideDown();
     }
+  });
+
+  $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
+    $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
+    $(".info-container").slideDown();
   });
 
   map(options);
