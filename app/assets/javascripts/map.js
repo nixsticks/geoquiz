@@ -14,6 +14,7 @@ var $map = $("#map"),
               .attr("preserveAspectRatio", "xMidYMid"),
     g = svg.append("g"),
     transition = options.transition,
+    skippable = true,
     answer,
     units,
     unit,
@@ -22,7 +23,7 @@ var $map = $("#map"),
 $(document).ready(function() {
   $(this).keypress(function(event) {
     if (event.which === 13 ) {
-      if (inputBox.disabled || !$inputBox.val()) { skip(); }
+      if (skippable || !$inputBox.val()) { skip(); }
     }
   })
 
@@ -37,7 +38,6 @@ $(document).ready(function() {
 
   $("#new_answer").on("ajax:before", function() {
     if ($inputBox.val()) {
-      console.log("full")
       var value = $inputBox.val(),
           active = d3.select(".active");
 
@@ -52,8 +52,8 @@ $(document).ready(function() {
       removeUnit();
       changeButton("Next");
       $okButton.addClass("grayed");
+      skippable = true;
     } else {
-      console.log("empty")
       return false;
     }
   }).bind("ajax:success", function(e, data, status, xhr) {
@@ -185,6 +185,7 @@ function changeButton(command) {
 
 function skip() {
   inputBox.disabled = false;
+  skippable = false;
   $(".info-container").slideUp();
   $(".card").removeClass("flipped");
   $okButton.removeClass("grayed");
