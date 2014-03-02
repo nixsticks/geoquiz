@@ -1,5 +1,5 @@
 var data = gon.data,
-    width = 300,
+    width = $("#unitdata").width(),
     barHeight = 25,
     height = barHeight * data.length,
     scale = d3.scale.linear()
