@@ -4,7 +4,7 @@ var data = gon.data,
     height = barHeight * data.length,
     scale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) { return d.percentage; })])
-              .range([0, width]),
+              .range([3, width]),
     chart = d3.select("#unitdata").append("svg")
             .attr("class", "barchart")
             .attr("width", width)
