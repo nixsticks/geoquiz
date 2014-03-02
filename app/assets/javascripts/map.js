@@ -36,7 +36,7 @@ $(document).ready(function() {
   });
 
   $("#new_answer").on("ajax:before", function() {
-    toggleInput();
+    if ($inputBox.val()) { toggleInput(); }
   });
 
   $("#new_answer").on("ajax:success", function(e, data, status, xhr) {
