@@ -4,11 +4,11 @@ var data = gon.data,
     height = barHeight * data.length,
     scale = d3.scale.linear()
               .domain([0, d3.max(data, function(d) { return d.percentage; })])
-              .range([3, width]),
+              .range([5, width]),
     chart = d3.select("#unitdata").append("svg")
             .attr("class", "barchart")
-            .attr("width", width)
-            .attr("height", height),
+            .attr("viewBox", "0 0 " + width + " " + height)
+            .attr("preserveAspectRatio", "xMidYMin");
     bar = chart.selectAll("g")
              .data(data)
              .enter().append("g")
@@ -18,7 +18,7 @@ var data = gon.data,
 
 bar.append("rect")
    .attr("class", "bar")
-   .attr("width", function(d) { return scale(d.percentage) - 30; })
+   .attr("width", function(d) { return scale(d.percentage); })
    .attr("height", barHeight - 2);
 
 bar.append("text")

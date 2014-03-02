@@ -86,13 +86,6 @@ function map(options) {
     unit = units[Math.floor(Math.random() * units.length)];
     setAnswer();
 
-    // var i = 896;
-
-    // units.forEach(function(unit) {
-    //   states[unit.properties.name] = i;
-    //   i++;
-    // });
-
     $unitBox.val(unit.id);
 
     g.append("g")
@@ -200,7 +193,7 @@ function skip() {
 
   if (!units.length) {
     var score = $(".correct").size(),
-        total = $(".correct, .wrong").size();
+        total = $(".correct, .unit").size();
 
     $(".input-container").html("<h1>GREAT JOB!</h1><p>Your score:<br>" + score + "/" + total + "</p>");
   } else {
