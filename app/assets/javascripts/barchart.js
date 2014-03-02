@@ -8,7 +8,7 @@ var data = gon.data,
     chart = d3.select("#unitdata").append("svg")
             .attr("class", "barchart")
             .attr("viewBox", "0 0 " + width + " " + height)
-            .attr("preserveAspectRatio", "xMidYMin");
+            .attr("preserveAspectRatio", "xMidYMid");
     bar = chart.selectAll("g")
              .data(data)
              .enter().append("g")
