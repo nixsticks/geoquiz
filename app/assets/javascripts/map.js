@@ -39,6 +39,8 @@ $(document).ready(function() {
     var value = $inputBox.val(),
         active = d3.select(".active");
 
+    toggleInput();
+
     if (value) {
       if (correctAnswer(value)) {
         active.classed("active", false).classed("correct", true);
@@ -49,7 +51,6 @@ $(document).ready(function() {
       }
 
       removeUnit();
-      toggleInput();
       changeButton("Next");
       $okButton.addClass("grayed");
       $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); })
