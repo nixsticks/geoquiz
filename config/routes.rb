@@ -4,6 +4,7 @@ GeoQuiz::Application.routes.draw do
   get '/practice' => 'pages#practice'
   get '/world_quiz' => 'pages#world_quiz'
   get '/usa' => 'pages#usa'
+  get '/uk' => 'pages#uk'
 
   resources :answers
 

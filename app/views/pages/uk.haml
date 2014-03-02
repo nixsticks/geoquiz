@@ -6,7 +6,7 @@
           .front
             .input-container.overlay
               .title
-                %h1 Where in the USA are we?
+                %h1 Where in the UK are we?
                 %p
                   %span{class: "small"} Click map to zoom.
               = render 'answers/form'
@@ -24,12 +24,14 @@
 
 :javascript
   var options = {
-    file: "usa.json",
+    file: "uk.json",
     globe: false,
-    projection: d3.geo.albersUsa()
-                     .scale(1000)
-                     .translate([$("#map").width() / 3, $("#map").height() / 2]),
-    scale: 1000,
+    projection: d3.geo.albers()
+                  .scale(3500)
+                  .rotate([4.4, 0])
+                  .center([0, 55.4])
+                  .translate([$("#map").width() / 3, $("#map").height() / 2]),
+    scale: 3500,
     drag: false,
     transition: function() {
       changeButton("Skip");

@@ -3,6 +3,7 @@ var $map = $("#map"),
     $unitBox = $("#answer_unit_id"),
     $nextButton = $("#next"),
     $notification = $("#notification"),
+    $okButton = $(".ok"),
     width = $map.width(),
     height = $map.height(),
     projection = options.projection,
@@ -50,6 +51,7 @@ $(document).ready(function() {
       removeUnit();
       toggleInput();
       changeButton("Next");
+      $okButton.addClass("grayed");
       $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); })
       $(".info-container").slideDown();
     }
@@ -65,7 +67,7 @@ function resize() {
   width = width - margin.left - margin.right;
   height = width * mapRatio;
 
-  projection.scale(1000).translate([width / 3, height / 2]);
+  projection.scale(options.scale).translate([width / 3, height / 2]);
   svg.selectAll("path").attr("d", path);
 }
 
@@ -190,6 +192,7 @@ function skip() {
   if (!clickable) { toggleInput(); }
   $(".info-container").slideUp();
   $(".card").removeClass("flipped");
+  $okButton.removeClass("grayed");
 
   if (!units.length) {
     var score = $(".correct").size(),

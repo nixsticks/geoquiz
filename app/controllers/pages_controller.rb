@@ -12,4 +12,8 @@ class PagesController < ApplicationController
   def usa
     @answer = Answer.new
   end
+
+  def uk
+    @answer = Answer.new
+  end
 end
