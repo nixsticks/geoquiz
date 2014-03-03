@@ -49,6 +49,7 @@ $(document).ready(function() {
         setNotification("wrong");
       }
 
+      skippable = true;
       removeUnit();
       changeButton("Next");
       $okButton.addClass("grayed");
@@ -56,10 +57,10 @@ $(document).ready(function() {
       return false;
     }
   }).bind("ajax:success", function(e, data, status, xhr) {
-    skippable = true;
-    inputBox.disabled = true;
-    $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
-    $(".info-container").slideDown();
+    if (skippable) {
+      $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
+      $(".info-container").slideDown();
+    }
   });
 
   map(options);
