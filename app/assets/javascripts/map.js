@@ -52,11 +52,11 @@ $(document).ready(function() {
       removeUnit();
       changeButton("Next");
       $okButton.addClass("grayed");
-      skippable = true;
     } else {
       return false;
     }
   }).bind("ajax:success", function(e, data, status, xhr) {
+    skippable = true;
     inputBox.disabled = true;
     $.get("/units/" + unit.id, function(data) { $("#unitdata").html(data); });
     $(".info-container").slideDown();

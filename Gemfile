@@ -14,6 +14,8 @@ end
 
 gem 'newrelic_rpm'
 
+gem 'figaro'
+
 gem 'rubyfish'
 
 # Use SCSS for stylesheets
