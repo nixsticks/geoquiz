@@ -80,15 +80,16 @@ function resize() {
 function map(options) {
   d3.json("/datafiles/" + options.file, function(error, data) {
     if (options.globe) {
-      svg.append("rect")
-       .attr("class", "transparent")
-       .attr("width", width)
-       .attr("height", height);
-
       g.append("path")
        .datum({type: "Sphere"})
        .attr("id", "globe");
     }
+
+    g.append("rect")
+    .attr("class", "transparent")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
 
     units = topojson.feature(data, data.objects.units).features;
     unit = units[Math.floor(Math.random() * units.length)];
