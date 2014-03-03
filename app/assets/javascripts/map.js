@@ -158,7 +158,6 @@ function removeUnit() {
 }
 
 function correctAnswer(input) {
-  console.log(unit.properties.names);
   return (unit.properties.names.indexOf(input.toLowerCase()) !== -1);
 }
 
