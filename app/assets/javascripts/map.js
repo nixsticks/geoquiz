@@ -25,13 +25,13 @@ $(document).ready(function() {
     if (event.which === 13 ) {
       if (!units.length) {
         var score = $(".correct").size(),
-        total = $(".correct, .unit").size();
+            total = $(".correct, .unit").size();
 
         $(".input-container").html("<h1>GREAT JOB!</h1><p>Your score:<br>" + score + "/" + total + "</p>");
 
         return false;
       }
-      
+
       if (skippable || !$inputBox.val()) { skip(); }
     }
   })
