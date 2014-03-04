@@ -23,6 +23,15 @@ var $map = $("#map"),
 $(document).ready(function() {
   $(this).keypress(function(event) {
     if (event.which === 13 ) {
+      if (!units.length) {
+        var score = $(".correct").size(),
+        total = $(".correct, .unit").size();
+
+        $(".input-container").html("<h1>GREAT JOB!</h1><p>Your score:<br>" + score + "/" + total + "</p>");
+
+        return false;
+      }
+      
       if (skippable || !$inputBox.val()) { skip(); }
     }
   })
@@ -191,17 +200,10 @@ function skip() {
   $(".card").removeClass("flipped");
   $okButton.removeClass("grayed");
 
-  if (!units.length) {
-    var score = $(".correct").size(),
-        total = $(".correct, .unit").size();
-
-    $(".input-container").html("<h1>GREAT JOB!</h1><p>Your score:<br>" + score + "/" + total + "</p>");
-  } else {
-    changeUnit();
-    clearBoxes();
-    $inputBox.focus();
-    transition();
-  }
+  changeUnit();
+  clearBoxes();
+  $inputBox.focus();
+  transition();
 }
 
 function clicked(d) {
