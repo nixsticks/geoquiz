@@ -28,6 +28,7 @@ $(document).ready(function() {
             total = $(".correct, .unit").size();
 
         $(".input-container").html("<h1>GREAT JOB!</h1><p>Your score:<br>" + score + "/" + total + "</p>");
+        $(".info-container").html("");
 
         return false;
       }
