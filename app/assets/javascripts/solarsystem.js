@@ -20,7 +20,10 @@ var scene = new THREE.Scene();
 
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-var orbitSpeed = [1, 0.001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008];
+var orbitSpeed = [1, 0.0016, 0.0012, 0.001, 0.0008, 0.00043, 0.00032, 0.00023, 0.00018];
+
+var rotationSpeed = [0.0006, 0.0000673, 0.0000405, 0.00104, 0.000538, 0.028325, 0.022892, 0.009193, 0.006039, 0.00007656];
+
 var orbitRing = [1, 40, 80, 120, 160, 220, 270, 320, 370]
 var planetRadius = [20, 10, 13, 15, 14, 25, 19, 17, 17];
 
