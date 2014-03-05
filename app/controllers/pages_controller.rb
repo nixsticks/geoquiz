@@ -5,6 +5,15 @@ class PagesController < ApplicationController
   def practice
   end
 
+  def solarsystem
+  end
+
+  def earth
+  end
+
+  def world_tour
+  end
+  
   def world_quiz
     @answer = Answer.new
   end

@@ -2,6 +2,9 @@ GeoQuiz::Application.routes.draw do
   root 'pages#index'
 
   get '/practice' => 'pages#practice'
+  get '/solarsystem' => 'pages#solarsystem'
+  get '/world_tour' => 'pages#world_tour'
+  get '/earth' => 'pages#earth'
   get '/world_quiz' => 'pages#world_quiz'
   get '/usa' => 'pages#usa'
   get '/uk' => 'pages#uk'
