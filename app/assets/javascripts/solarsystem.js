@@ -30,6 +30,8 @@ var planetRadius = [20, 10, 13, 15, 14, 25, 19, 17, 17];
 var prefix = "/images/";
 var textures = ["sunmap.jpg", "mercurymap.jpg", "venusmap.jpg", "earthmap.jpg", "marsmap.jpg", "jupitermap.jpg", "saturnmap.jpg", "uranusmap.jpg", "neptunemap.jpg"];
 
+var ringMesh;
+
 for (var i = 0; i < 9; i++) {
   var orbit = new THREE.TorusGeometry(orbitRing[i], .1, 50, 50)
   var orbitMaterial = new THREE.MeshNormalMaterial({wireframe: true});
@@ -42,6 +44,35 @@ for (var i = 0; i < 9; i++) {
   planets[i] = new THREE.Mesh(planet, planetMaterial);
 
   scene.add(planets[i]);
+
+  // if (i === 0) {
+  //   var light = new THREE.PointLight( 0xff0000, 1, 100 );
+  //   light.position.set( orbitRing[i], 0, 0 );
+  //   scene.add( light );
+
+  //   var customMaterial = new THREE.ShaderMaterial(
+  //     {
+  //       uniforms: {},
+  //       vertexShader: document.getElementById('vertexShader').textContent,
+  //       fragmentShader: document.getElementById('fragmentShader').textContent,
+  //       side: THREE.BackSide,
+  //       blending: THREE.AdditiveBlending,
+  //       transparent: true
+  //     }
+  //   );
+
+  //   var ballGeometry = new THREE.SphereGeometry(planetRadius[i] + 4, 20, 20);
+  //   var ball = new THREE.Mesh(ballGeometry, customMaterial);
+  //   scene.add(ball);
+  // }
+
+  if (i === 6) {
+    var ringGeometry = new THREE.TorusGeometry(planetRadius[i] + 6, 1, 20, 20);
+    var ringMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(prefix + 'saturnringcolor.jpg')});
+    ringMesh = new THREE.Mesh(ringGeometry, ringMaterial);
+    ringMesh.position.set(orbitRing[i], 0, 0);
+    scene.add(ringMesh);
+  }
 
   planets[i].position.set(orbitRing[i], 0, 0);
 }
@@ -62,6 +93,10 @@ function draw() {
     planets[i].position.x = Math.sin(Date.now() * orbitSpeed[i]) * orbitRing[i];
     planets[i].position.y = Math.cos(Date.now() * orbitSpeed[i]) * orbitRing[i];
   }
+
+  ringMesh.rotation.x = 1.5;
+  ringMesh.position.x = Math.sin(Date.now() * orbitSpeed[6]) * orbitRing[6];
+  ringMesh.position.y = Math.cos(Date.now() * orbitSpeed[6]) * orbitRing[6];
 
   if (perspective === "earth") {
     camera.position.set(planets[3].position.x + 50, planets[3].position.y+100, planets[3].position.z+100);

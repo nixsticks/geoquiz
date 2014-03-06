@@ -16,4 +16,3 @@
 //= require d3.min
 //= require topojson.min
 //= require queue.min
-//= require turbolinks
