@@ -13,6 +13,12 @@ class PagesController < ApplicationController
 
   def world_tour
   end
+
+  def milkyway
+  end
+
+  def galaxy
+  end
   
   def world_quiz
     @answer = Answer.new

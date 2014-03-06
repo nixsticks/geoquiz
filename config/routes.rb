@@ -8,6 +8,8 @@ GeoQuiz::Application.routes.draw do
   get '/world_quiz' => 'pages#world_quiz'
   get '/usa' => 'pages#usa'
   get '/uk' => 'pages#uk'
+  get '/milkyway' => 'pages#milkyway'
+  get '/galaxy' => 'pages#galaxy'
 
   resources :answers
 
