@@ -5,7 +5,7 @@ var width = $("#map").width(),
 
 var projection = d3.geo.orthographic()
                        .scale(height/2.5)
-                       .translate([width/2, height/2])
+                       .translate([width/2, height/2.5])
                        .clipAngle(90);
 
 var path = d3.geo.path().projection(projection);

@@ -1,4 +1,4 @@
-.padding.bck.lightest.center
+.padding.bck.darkest.center
   %h1 pale blue dot
 
 #milkyway
@@ -21,9 +21,18 @@
       .column_2.offset_4.center
         %a{href: '/solarsystem'}
           %img{src: '/images/telescope.png', class: 'img-small'}
+        .margin-top
+          %h3
+            %a{href: '/solarsystem'} Solar System
+          %p Explore the solar system in 3D.
       .column_2.center
         %a{href: '/earth'}
           %img{src: '/images/earth.png', class: 'img-small'}
+        .margin-top
+          %h3
+            %a{href: '/earth'} Earth
+          %p Our home, viewed from outer space.
+.padding.bck.lightest.text.center
   .margin-bottom
     %h2{class: "color theme"} Explore our world.
     .row.text.center.margin-top
@@ -33,18 +42,33 @@
       .column_2.offset_3.center
         %a{href: '/world_quiz'}
           %img{src: '/images/worldquiz.png', class: 'img-small'}
+        .margin-top
+          %h3
+            %a{href: '/world_quiz'} World Quiz
+          %p Test your knowledge of world geography.
       .column_2
         %a{href: '/usa'}
           %img{src: '/images/usa.png', class: 'img-small'}
+        .margin-top
+          %h3
+            %a{href: '/usa'} USA Quiz
+          %p Can you place all 50 states?
       .column_2
         %a{href: '/world_tour'}
           %img{src: '/images/tour.png', class: 'img-small'}
+        .margin-top
+          %h3
+            %a{href: '/world_tour'} World Tour
+          %p Get in some practice with a world tour.
 
-.padding.bck.lightest.center
+.padding.bck.darkest.center
   .margin-bottom
-    %h1 Author
+    %h1 About
+    %p Nikki was born somewhere in the tropics. She loves astronomy, cosmology, and Battlestar Galactica.
+    %p pale blue dot was inspired by Carl Sagan, one of her personal heroes.
   .margin-bottom
-    %p Contact me!
-
-.padding.tiny.center
-  %p Icons by Blake Thompson, Simon Child, Bohdan Burmich, and Sergi Delgado for <a href="http://thenounproject.com" target="blank">The Noun Project</a>.
+    %img{src: "/images/nikki.jpg", class: "responsive rounded med"}
+  .margin-bottom
+    %a{href: "mailto:nikki.thean@gmail.com"} Contact
+  .padding.tiny.center
+    %p Icons by Blake Thompson, Simon Child, Bohdan Burmich, Sergi Delgado, and Renan Ferreira Santos for <a href="http://thenounproject.com" target="blank">The Noun Project</a>.
