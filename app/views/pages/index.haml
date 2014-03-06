@@ -1,14 +1,50 @@
-.padding.bck.theme.center
-  %h1 Cartographer
+.padding.bck.lightest.center
+  %h1 pale blue dot
+
+#milkyway
+
+.padding.bck.lightest.center
+  .row.text.center.margin-top
+    .column_8.offset_2
+      %p "It has been said that astronomy is a humbling and character-building experience. There is perhaps no better demonstration of the folly of human conceits than this distant image of our tiny world. To me, it underscores our responsibility to deal more kindly with one another, and to preserve and cherish the pale blue dot, the only home we've ever known."
+      %p{class: "right"} -- Carl Sagan
 
 .padding.bck.lightest.text.center
   .margin-bottom
-    %h2{class: "color theme"} Improve your geography.
-  .margin-bottom
-    %p{class: "color default"} Cartographer is a collection of interactive quizzes that tests your geographical knowledge.
+    %h2{class: "color theme"} Learn about the solar system.
+    .row.text.center.margin-top
+      .column_8.offset_2.left
+        %p Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune (and for those of us born before the year 2006, Pluto): the eight planets that captured our imaginations as children. The solar system was formed 4.6 billion years ago from the gravitational collapse of a giant molecular cloud.
+        %p Blah blah blah blah.
 
-.padding.bck.dark.center
+    .row.text.center.margin-top.margin-bottom
+      .column_2.offset_4.center
+        %a{href: '/solarsystem'}
+          %img{src: '/images/telescope.png', class: 'img-small'}
+      .column_2.center
+        %a{href: '/earth'}
+          %img{src: '/images/earth.png', class: 'img-small'}
+  .margin-bottom
+    %h2{class: "color theme"} Explore our world.
+    .row.text.center.margin-top
+      .column_8.offset_2.left
+        %p Here is more text for you. This is all about improving your geography and why you should do it. Blah blah blah blah blah blah blah blah blah blah blah blah.
+    .row.text.center.margin-top.margin-bottom
+      .column_2.offset_3.center
+        %a{href: '/world_quiz'}
+          %img{src: '/images/worldquiz.png', class: 'img-small'}
+      .column_2
+        %a{href: '/usa'}
+          %img{src: '/images/usa.png', class: 'img-small'}
+      .column_2
+        %a{href: '/world_tour'}
+          %img{src: '/images/tour.png', class: 'img-small'}
+
+.padding.bck.lightest.center
   .margin-bottom
     %h1 Author
   .margin-bottom
     %p Contact me!
+
+.padding.tiny.center
+  %p Icons by Blake Thompson, Simon Child, Bohdan Burmich, and Sergi Delgado for <a href="http://thenounproject.com" target="blank">The Noun Project</a>.

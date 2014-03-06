@@ -16,6 +16,36 @@ body {
   width: 100%;
 }
 
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.darkest {
+  background-color: black;
+  color: white;
+}
+
+.img-small {
+  max-height: 100px;
+}
+
+.tiny {
+  font-size: 0.6em;
+}
+
+#milkyway {
+  background: url('/images/cover.jpeg') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+  height: 500px;
+}
+
 .stars, .blue {
   position: absolute;
   height: 100%;
@@ -77,6 +107,12 @@ span.icon {
   position: fixed;
   top: 30px;
   right: 50px;
+  z-index: 1000;
+}
+
+.tooltip {
+  padding-top: 30px;
+  text-align: center;
   z-index: 1000;
 }
 

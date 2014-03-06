@@ -24,7 +24,7 @@ var orbitSpeed = [1, 0.0016, 0.0012, 0.001, 0.0008, 0.00043, 0.00032, 0.00023, 0
 
 var rotationSpeed = [0.0006, 0.0000673, 0.0000405, 0.00104, 0.000538, 0.028325, 0.022892, 0.009193, 0.006039, 0.00007656];
 
-var orbitRing = [1, 40, 80, 120, 160, 220, 270, 320, 370]
+var orbitRing = [1, 40, 80, 120, 160, 220, 270, 320, 370];
 var planetRadius = [20, 10, 13, 15, 14, 25, 19, 17, 17];
 
 var prefix = "/images/";
@@ -38,7 +38,9 @@ for (var i = 0; i < 9; i++) {
 
   var planet = new THREE.SphereGeometry(planetRadius[i], 20, 20);
   var planetMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(prefix + textures[i])});
+
   planets[i] = new THREE.Mesh(planet, planetMaterial);
+
   scene.add(planets[i]);
 
   planets[i].position.set(orbitRing[i], 0, 0);
