@@ -14,7 +14,7 @@ document.body.appendChild(renderer.domElement);
 
 var camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000);
 
-camera.position.z = 1000;
+camera.position.z = -1000;
 
 var scene = new THREE.Scene();
 
@@ -119,7 +119,7 @@ $(document).ready(function() {
   $("#infinite").on("click", function() {
     perspective = "infinite"
     camera.position.x, camera.position.y = 1;
-    camera.position.z = 1000;
+    camera.position.z = -1000;
   })
 
   $("#earth").on("click", function() {
