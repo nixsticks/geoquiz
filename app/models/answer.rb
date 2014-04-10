@@ -4,7 +4,7 @@ class Answer < ActiveRecord::Base
   validates :content, presence: true, format: {with: /[A-Z\-\',]+/i}
 
   def proper_name
-    if %w[usa uk us uae drc droc].include?(self.content.downcase) || self.content.size == 2
+    if %w[usa uk us uae drc droc nz].include?(self.content.downcase) || self.content.size == 2
       self.content.upcase
     elsif self.content.downcase == "timor-leste"
       "Timor-Leste"

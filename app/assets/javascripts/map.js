@@ -168,7 +168,15 @@ function removeUnit() {
 }
 
 function correctAnswer(input) {
-  return (unit.properties.names.indexOf(input.toLowerCase()) !== -1);
+  var answer = input.toLowerCase().replace(/\s+$/, "");
+
+  for(var i = 0, name; name = unit.properties.names[i]; i++) {
+    var levenshtein = new Levenshtein(name, answer);
+    if (levenshtein.distance <= 1) { return true; }
+  }
+
+  return false;
+  // return (unit.properties.names.indexOf(input.toLowerCase().replace(/\s+$/, "")) !== -1);
 }
 
 function setNotification(command) {
